@@ -23,10 +23,6 @@ class Game(BaseModel):
     dealer_hand: str
     player_hand: list[str]
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
 @app.post("/game/")
 async def upload_game(game: Game):
     print(jsonable_encoder(game))
