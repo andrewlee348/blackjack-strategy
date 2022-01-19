@@ -15,7 +15,6 @@ Then, run:
 npm start
 ```
 
-The API and its swagger doc is available from http://localhost:8000/docs
 
 To access the "Played Games" page, firebase-admin credentials are required to store and fetch user data; however, for obvious security reasons I didn't add them here.
 
@@ -30,3 +29,5 @@ Then, to run the API server:
 ```
 python -m uvicorn server:app --reload
 ```
+
+The API and its swagger doc is available from http://localhost:8000/docs
