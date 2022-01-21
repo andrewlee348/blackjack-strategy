@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Container, Row, Col, ButtonGroup } from "react-bootstrap";
+import { Button, Container, Row, Col, ButtonGroup, Alert } from "react-bootstrap";
 import Nav_Bar from "./nav_bar";
 import axios from "axios";
 
@@ -9,9 +9,11 @@ import { schart } from "../charts/soft_chart";
 export default function Home() {
   const [dealer, setDealer] = useState("");
   const [player, setPlayer] = useState([]);
+  const [decision, setDecision] = useState("");
   const [outcome, setOutcome] = useState("");
   const [ip_address, setIP] = useState("");
-  const [decision, setDecision] = useState("");
+  const [invalidMsg, setInvalidMsg] = useState("");
+  const [showInvalid, setShowInvalid] = useState(false);
 
   const convert_special_cards = (card) => {
     return card === "J" || card === "Q" || card === "K" ? 10 : (card === "A" ? 1 : parseInt(card));
@@ -45,6 +47,32 @@ export default function Home() {
     setIP(res.data.IPv4);
   };
 
+  const upload_game_validation = () => {
+    let invalid_msgs = []
+    if (!dealer) {
+      invalid_msgs.push("dealer card");
+    }
+    if (player.length === 0) {
+      if (invalid_msgs.length > 0) {
+        invalid_msgs.push(", player cards");
+      } else {
+        invalid_msgs.push("player cards");
+      }
+    }
+    if (!outcome) {
+      if (invalid_msgs.length > 0) {
+        invalid_msgs.push(", outcome");
+      } else {
+        invalid_msgs.push("outcome");
+      }
+    }
+    if (invalid_msgs) {
+      setInvalidMsg("Please input " + invalid_msgs.join(""));
+    } else {
+      setInvalidMsg("");
+    }
+  }
+
   const upload_game = () => {
     const game = {
       ip_address: ip_address,
@@ -54,7 +82,10 @@ export default function Home() {
       player_hand: player,
     };
 
-    axios
+    upload_game_validation();
+
+    if (game.dealer_hand && game.player_hand.length > 0 && game.outcome) {
+      axios
       .post("https://blackjack-strategy-2649b.wl.r.appspot.com/game", game)
       .then(() => {
         console.log("Success");
@@ -62,6 +93,18 @@ export default function Home() {
       .catch((err) => {
         console.log(err);
       });
+
+    setDealer("");
+    setPlayer([]);
+    setDecision("");
+    setOutcome("");
+    setShowInvalid(false);
+    } else {
+      setShowInvalid(true);
+      setTimeout(() => {
+        setShowInvalid(false);
+     }, 4000)
+    }
   };
 
   const dealer_setter = (card_val) => {
@@ -77,8 +120,13 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
+    <div style={{width: "100%"}}>
       <Nav_Bar />
+      {showInvalid ?
+          <Alert variant="danger" onClose={() => setShowInvalid(false)} dismissible style={{margin: "15px auto", display: "table"}}>
+            {invalidMsg}
+          </Alert>
+          : null}
       <Container style={{marginTop: "25px"}}>
         <Row>
           <Col sm={5} style={{textAlign: "center", backgroundColor: "#dedede", padding: "40px", borderRadius:"10px"}}>
