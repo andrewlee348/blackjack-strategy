@@ -112,7 +112,9 @@ export default function Home() {
   };
 
   const player_appender = (card_val) => {
-    setPlayer((player) => [...player, card_val])
+    if (player.length < 6) {
+      setPlayer((player) => [...player, card_val])
+    }
   }
 
   useEffect(() => {
