@@ -7,7 +7,9 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+app = FastAPI(
+    title="Blackjack Strategy API"
+)
 
 app.add_middleware(
     CORSMiddleware,

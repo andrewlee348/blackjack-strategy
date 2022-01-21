@@ -55,7 +55,7 @@ export default function Home() {
     };
 
     axios
-      .post("http://localhost:8000/game", game)
+      .post("https://blackjack-strategy-2649b.wl.r.appspot.com/game", game)
       .then(() => {
         console.log("Success");
       })

@@ -12,7 +12,7 @@ export default function Played_Games() {
 
   const get_games = async (ip_address) => {
     const res = await axios.get(
-      "http://localhost:8000/get_games/" + ip_address
+      "https://blackjack-strategy-2649b.wl.r.appspot.com/get_games/" + ip_address
     );
     if (res.data) {
       setGames(res.data);
