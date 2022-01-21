@@ -1,6 +1,8 @@
 # blackjack-strategy
 Strategy Optimizer for Blackjack
 
+Deployed here: [Blackjack Strategy Web App](https://blackjack-strategy-2649b.web.app/)
+
 There are two parts here, the client and the server.
 
 ## Installation
@@ -15,10 +17,7 @@ Then, run:
 npm start
 ```
 
-
-To access the "Played Games" page, firebase-admin credentials are required to store and fetch user data; however, for obvious security reasons I didn't add them here.
-
-If you're able to connect with your Firestore credentials:
+To run the FastAPI on your own:
 
 In the root directory:
 ```
